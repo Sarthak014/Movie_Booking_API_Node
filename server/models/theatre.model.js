@@ -69,6 +69,15 @@ const theatreSchema = new mongoose.Schema(
   }
 );
 
+theatreSchema.set('toJSON', {
+  versionKey: false,
+  virtuals: true,
+  transform: (doc, ret) => {
+    ret.id = ret._id;
+    delete ret._id;
+  }
+});
+
 const THEATRE = mongoose.model('THEATRE', theatreSchema);
 
 export default THEATRE;
