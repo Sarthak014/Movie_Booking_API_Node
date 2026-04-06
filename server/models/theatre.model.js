@@ -69,6 +69,7 @@ const theatreSchema = new mongoose.Schema(
   }
 );
 
+// update mongoose toJSON transform to hide version key and map _id to id
 theatreSchema.set('toJSON', {
   versionKey: false,
   virtuals: true,
