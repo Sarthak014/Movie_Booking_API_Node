@@ -1,5 +1,5 @@
 import MOVIE from "../models/movie.model"
-import responseBodyStructure from "../utils/responseBodyStructure";
+import responseBodyTemplate from "../utils/responseBodyTemplate";
 
 export const validateMovieRequestBody = async (req, res, next) => {
     try {
@@ -14,10 +14,10 @@ export const validateMovieRequestBody = async (req, res, next) => {
                 message: e.message,
             }));
 
-            return res.status(400).json(responseBodyStructure.errorBody(errorList, "Invalid request body"));
+            return res.status(400).json(responseBodyTemplate.errorBody(errorList, "Invalid request body"));
         }
 
-        return next(error);
+        return res.status(500).json(responseBodyTemplate.errorBody(error));
     }
 }
 
@@ -30,8 +30,9 @@ export const validationNameQuery = async (req, res, next) => {
             return next();
         }
 
-        return res.status(400).json(responseBodyStructure.errorBody({'name': `Required "name" query params or no query`}, "Invalid query parameters."));
+        return res.status(400).json(responseBodyTemplate.errorBody({'name': `Required "name" query params or no query`}, "Invalid query parameters."));
     } catch (error) {
-        return next(error);
+        console.log("Error: ", error);
+        return res.status(500).json(responseBodyTemplate.errorBody(error));
     }
 }
