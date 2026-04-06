@@ -28,21 +28,26 @@ const createMovie = async (data) => {
 
 // Deleting movie by ID
 const deleteMovieByID = async (id) => {
-    const result = await MOVIE.deleteOne({ _id: id });
+    try {
+        const result = await MOVIE.deleteOne({ _id: id });
 
-    // If no movie found
-    if (result.deletedCount === 0) {
-        return {
-            success: false,
-            message: "Movie Not Found",
-            error: result,
+        // If no movie found
+        if (result.deletedCount === 0) {
+            return {
+                success: false,
+                message: "Movie Not Found",
+                error: result,
+            }
         }
-    }
 
-    return {
-        success: true,
-        message: "Successfully deleted the movie.",
-        data: result,
+        return {
+            success: true,
+            message: "Successfully deleted the movie.",
+            data: result,
+        }
+    } catch (error) {
+        console.log(error);
+        throw error;
     }
 }
 
@@ -54,7 +59,7 @@ const fetchMovieByID = async (id) => {
         return {
             success: false,
             message: "Movie Not Found for the provided ID",
-            error: result,
+            error: result || {},
         };
     }
 
@@ -93,7 +98,7 @@ const updateMovie = async (id, data) => {
 const fetchMovie = async (filter) => {
     const movies = await MOVIE.find(filter);
 
-    if (!movies.length) {
+    if (!movies || !movies.length) {
         return {
             error: "Movie not found.",
             statusCode: 400,

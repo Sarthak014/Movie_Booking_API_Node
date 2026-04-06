@@ -4,8 +4,9 @@ import mongoose from 'mongoose';
 
 import 'dotenv/config';
 
-import { movies } from './server/constants/routes.constant.js';
+import { MoviesURL, TheatreURL } from './server/constants/routes.constant.js';
 import movieRoutes from './server/routes/movie.route.js';
+import theatreRoutes from './server/routes/theatre.route.js';
 
 const app = express();
 
@@ -13,7 +14,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
-app.use(movies, movieRoutes);
+app.use(MoviesURL, movieRoutes);
+app.use(TheatreURL, theatreRoutes);
 
 /** MONGOOSE SETUP */
 const PORT = process.env.PORT || 3000;
